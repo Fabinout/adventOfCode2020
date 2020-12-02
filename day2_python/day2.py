@@ -9,10 +9,7 @@ class Password(object):
         return self.policy.max >= count >= self.policy.min
 
     def isValid2(self) -> bool:
-        print(f'{self.password[self.policy.min-1]=}')
-        print(f'{self.policy.char=}')
-
-        return (self.password[self.policy.min-1] == self.policy.char) ^ (self.password[self.policy.max-1] == self.policy.char)
+        return (self.password[self.policy.min - 1] == self.policy.char) ^ (self.password[self.policy.max - 1] == self.policy.char)
 
 
 class Policy(object):
