@@ -26,3 +26,19 @@ class Test(TestCase):
 
     def test_count_valid_passwords_for_input(self):
         self.assertEqual(467, len(list(filter(lambda pw: parseString(pw).isValid(), input_real_case))))
+
+    def test_isValid2(self):
+        error_password = parseString("1-3 a: abcde")
+        self.assertTrue(error_password.isValid2())
+
+    def test_not_isValid2(self):
+        error_password2 = parseString("2-9 c: ccccccccc")
+        error_password3 = parseString("1-3 b: cdefg")
+        self.assertFalse(error_password2.isValid2())
+        self.assertFalse(error_password3.isValid2())
+
+    def test_count_valid2_passwords_for_input_test(self):
+        self.assertEqual(1, len(list(filter(lambda pw: parseString(pw).isValid2(), input_test))))
+
+    def test_count_valid2_passwords_for_input(self):
+        self.assertEqual(467, len(list(filter(lambda pw: parseString(pw).isValid2(), input_real_case))))
