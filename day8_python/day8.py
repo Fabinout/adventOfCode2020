@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import List
 
+from day8_python.input_prod_8 import input_prod
 from day8_python.input_test import input_test
 
 
@@ -20,7 +21,7 @@ def parse_line(line: str) -> Command:
 
 def generate_commands() -> list:
     lines: list = []
-    for string in input_test:
+    for string in input_prod:
         lines.append(parse_line(string))
     return lines
 
