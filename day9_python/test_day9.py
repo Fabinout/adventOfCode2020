@@ -39,6 +39,7 @@ class Test(TestCase):
 
     def test_find_encryption_weakness(self):
         self.assertEqual(find_encryption_weakness(input_test, 127), 62)
+        self.assertEqual(find_encryption_weakness(input_prod, 167829540), 28045630)
 
     def test_get_subsequences_of_size(self):
         self.assertEqual(get_subsequences_of_size([1, 2, 3, 4], 2), [[1, 2], [2, 3], [3, 4]])
