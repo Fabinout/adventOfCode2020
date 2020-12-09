@@ -27,4 +27,4 @@ class Test(TestCase):
 
     def test_get_all_combinations(self):
         self.assertEqual(get_all_combinations([1, 2, 3]), {2, 3, 6})
-        self.assertEqual(get_all_combinations([1, 2, 3, 4, 5]), {2, 3, 4,5,6,8,10,12,15,20})
+        self.assertEqual(get_all_combinations([1, 2, 3, 4, 5]), {2, 3, 4, 5, 6, 8, 10, 12, 15, 20})
