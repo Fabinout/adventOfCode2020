@@ -26,5 +26,6 @@ class Test(TestCase):
                                                       55])
 
     def test_get_all_combinations(self):
-        self.assertEqual(get_all_combinations([1, 2, 3]), {2, 3, 6})
-        self.assertEqual(get_all_combinations([1, 2, 3, 4, 5]), {2, 3, 4, 5, 6, 8, 10, 12, 15, 20})
+        self.assertEqual(get_all_combinations([1, 2, 3]), {3, 4, 5})
+        self.assertEqual(get_all_combinations([1, 2, 3, 4, 5]), {3, 4, 5, 6, 7, 8, 9})
+        self.assertEqual(get_all_combinations(get_preamble(XMASData(input_test), 5)), {35, 67, 40, 72, 45, 50, 82, 55, 60, 62})

@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from day9_python.input_test import input_test
+
 
 @dataclass
 class XMASData(object):
@@ -16,5 +18,6 @@ def get_all_combinations(data: list) -> set:
     for i in data:
         for j in data:
             if i != j:
-                combs.append(i * j)
+                combs.append(i + j)
     return set(combs)
+
