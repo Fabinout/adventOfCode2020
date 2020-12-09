@@ -7,8 +7,8 @@ class XMASData(object):
     pass
 
 
-def get_preamble(XMAS_data: XMASData, current: int) -> list:
-    return XMAS_data.data[current - 5:current]
+def get_preamble(XMAS_data: XMASData, current: int, preamble_size: int) -> list:
+    return XMAS_data.data[current - preamble_size:current]
 
 
 def get_all_combinations(data: list) -> set:
@@ -20,12 +20,12 @@ def get_all_combinations(data: list) -> set:
     return set(combs)
 
 
-def find_first_anomaly(input_test):
+def find_first_anomaly(input_test, preamble_size: int):
     running = True
-    i = 5
+    i = preamble_size
     xmas_data = XMASData(input_test)
     while running:
-        preamble = get_preamble(xmas_data, i)
+        preamble = get_preamble(xmas_data, i, preamble_size)
         possible_values = get_all_combinations(preamble)
         if xmas_data.data[i] in possible_values:
             i += 1
