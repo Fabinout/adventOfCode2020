@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 
-from day9_python.input_test import input_test
-
 
 @dataclass
 class XMASData(object):
@@ -21,3 +19,18 @@ def get_all_combinations(data: list) -> set:
                 combs.append(i + j)
     return set(combs)
 
+
+def find_first_anomaly(input_test):
+    running = True
+    i = 5
+    xmas_data = XMASData(input_test)
+    while running:
+        preamble = get_preamble(xmas_data, i)
+        possible_values = get_all_combinations(preamble)
+        if xmas_data.data[i] in possible_values:
+            i += 1
+        else:
+            running = False
+            print(xmas_data.data[i])
+            return xmas_data.data[i]
+    pass
