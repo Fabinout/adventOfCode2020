@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from typing import List
+
 
 @dataclass
 class XMASData(object):
@@ -34,3 +36,19 @@ def find_first_anomaly(input_test, preamble_size: int):
             print(xmas_data.data[i])
             return xmas_data.data[i]
     pass
+
+
+def get_subsequences_of_size(input_test, size: int) -> list:
+    subs = []
+    for index in range(0, len(input_test) - size + 1):
+        subs.append(input_test[index:index + size])
+    return subs
+
+
+def find_encryption_weakness(input_test: list, invalid_number: int) -> int:
+    for i in range(2, len(input_test) - 5):
+        sequences: list = get_subsequences_of_size(input_test, i)
+        subs: List[int]
+        for subs in sequences:
+            if sum(subs) == invalid_number:
+                return max(subs) + min(subs)
