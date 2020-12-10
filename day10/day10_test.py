@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from day10.input_test import adapters_test
+from day10.input_test import adapters_test, adapters_test_2
 from day10.main import JoltageAdapters
 
 
@@ -29,3 +29,12 @@ class MyTestCase(TestCase):
         device = JoltageAdapters(adapters_test)
         self.assertEqual(device.difference_3, 5)
         self.assertEqual(device.difference_1, 7)
+
+        self.assertEqual(device.result, 35)
+
+    def test_deltas_2(self):
+        device = JoltageAdapters(adapters_test_2)
+        self.assertEqual(device.difference_3, 10)
+        self.assertEqual(device.difference_1, 22)
+
+        self.assertEqual(device.result, 220)

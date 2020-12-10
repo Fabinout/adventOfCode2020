@@ -10,3 +10,5 @@ class JoltageAdapters(object):
                 self.difference_1 += 1
             if (i + 1 not in self.values) and (i + 2 not in self.values) and i + 3 in self.values:
                 self.difference_3 += 1
+
+        self.result = self.difference_3 * self.difference_1
