@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+from day10.RealInput import input_prod
 from day10.input_test import adapters_test, adapters_test_2
 from day10.main import JoltageAdapters
 
@@ -38,3 +39,10 @@ class MyTestCase(TestCase):
         self.assertEqual(device.difference_1, 22)
 
         self.assertEqual(device.result, 220)
+
+    def test_result_real_case(self):
+        device = JoltageAdapters(input_prod)
+        self.assertEqual(device.difference_3, 39)
+        self.assertEqual(device.difference_1, 66)
+
+        self.assertEqual(device.result, 2574)
