@@ -1,182 +1,124 @@
-from enum import Enum
-from typing import List
-from unittest import TestCase
+#!/usr/bin/python3
 
-from day11.input_test import seat_layout_test
+def read_input():
+    with open('input.txt', 'r') as file:
+        data = file.read()
+    lines = list()
+    for d in data.split("\n"):
+        if (d != ""):
+            lines.append(list(d))
+    return lines
 
+def compare(array2d1,array2d2):
+    for i in range(len(array2d1)):
+        for j in range(len(array2d1[i])):
+            if (array2d1[i][j] != array2d2[i][j]):
+                return False
+    return True
 
-class S(Enum):
-    EMPTY_SEAT = 1
-    FLOOR = 2
-    OCCUPIED_SEAT = 3
-
-
-class Seats(object):
-
-    def __init__(self, seatings) -> None:
-        self.seat_values: List[List[int]] = seatings
-        self.wide: int = len(seatings[0])
-        self.height: int = len(seatings)
-        super().__init__()
-
-    def count_occupied_seats(self) -> int:
-        total = 0
-        for strings in self.seat_values:
-            total += strings.count('#')
-        return total
-
-    def get_seat(self, x: int, y: int) -> S:
-        if x >= self.wide or x < 0 or y >= self.height or y < 0:
-            return S.FLOOR
-        val = self.seat_values[x][y]
-        if val == 'L': return S.EMPTY_SEAT
-        if val == '.': return S.FLOOR
-        if val == '#': return S.OCCUPIED_SEAT
-
-    def seats_as_string(self) -> str:
-        string = ''
-        for i in self.seat_values:
-            for j in i:
-                string += j
-            string += "\n"
-        return string
-
-
-def final_count(s: Seats) -> int:
-    seats_count = s.count_occupied_seats()
-    print(s.seats_as_string())
-    print(f'{s.count_occupied_seats()=}')
-    next_step = next_seatings(s)
-    new_seat_count = next_step.count_occupied_seats()
-    if new_seat_count == seats_count and next_step.seats_as_string() == s.seats_as_string():
-        print('final_state')
-        print(next_step.seats_as_string())
-        print(f'{next_step.count_occupied_seats()=}')
-        return seats_count
+def getValue(array2d, i, j):
+    if (i < 0 or j < 0 or i >= len(array2d) or j >= len(array2d[0])):
+        return ''
     else:
-        return final_count(next_step)
+        return array2d[i][j]       
 
+def deepCopy(array2d1):
+    array2d2 = list()
+    for i in range(len(array2d1)):
+        array2d2.append(list())
+        for j in range(len(array2d1[i])):
+            array2d2[i].append(array2d1[i][j])
+    return array2d2
 
-def next_seatings(test_seating: Seats) -> Seats:
-    new_seatings = []
-    for x in range(0, test_seating.height):
-        row = []
-        for y in range(0, test_seating.wide):
-            if test_seating.get_seat(x, y) == S.FLOOR:
-                row.append('.')
-            if test_seating.get_seat(x, y) == S.EMPTY_SEAT:
-                row.append(case_EMPTY_SEAT(test_seating, x, y))
-            if test_seating.get_seat(x, y) == S.OCCUPIED_SEAT:
-                row.append(case_OCCUPIED_SEAT(test_seating, x, y))
-        new_seatings.append(row)
-    new_seating = Seats(new_seatings)
+def printArray(cycles, array2d):
+    print('Round', cycles)
+    for i in array2d:
+        for j in i:
+            print(j,end='')
+        print()
+    print()
 
-    return new_seating
+def countSeats(lines):
+    seats = 0
+    for l in lines:
+        seats += l.count('#')
+    return seats
 
+def occupiedSeatsVisible(array2d, i, j):
+    around = ['?','?','?',
+              '?',    '?',
+              '?','?','?']
+    radius = 1
+    while around.count('?') > 0:
+        if (around[0] == '?'): # top left
+            t = getValue(array2d, i-radius, j-radius)
+            if t in ['#','L','']: around[0] = t
+        if (around[1] == '?'): # top
+            t = getValue(array2d, i-radius, j)
+            if t in ['#','L','']: around[1] = t
+        if (around[2] == '?'): # top right
+            t = getValue(array2d, i-radius, j+radius)
+            if t in ['#','L','']: around[2] = t
+        if (around[3] == '?'): # left
+            t = getValue(array2d, i,        j-radius)
+            if t in ['#','L','']: around[3] = t
+        if (around[4] == '?'): # right
+            t = getValue(array2d, i,        j+radius)
+            if t in ['#','L','']: around[4] = t
+        if (around[5] == '?'): # bottom left
+            t = getValue(array2d, i+radius, j-radius)
+            if t in ['#','L','']: around[5] = t
+        if (around[6] == '?'): # bottom
+            t = getValue(array2d, i+radius, j)
+            if t in ['#','L','']: around[6] = t
+        if (around[7] == '?'): # bottom right
+            t = getValue(array2d, i+radius, j+radius)
+            if t in ['#','L','']: around[7] = t
+        # increase search radius
+        radius += 1
+    return around
 
-def case_OCCUPIED_SEAT(test_seating, x, y) -> str:
-    occupied_count = 0
-    if test_seating.get_seat(x + 1, y - 1) == S.OCCUPIED_SEAT: occupied_count += 1
-    if test_seating.get_seat(x + 1, y) == S.OCCUPIED_SEAT: occupied_count += 1
-    if test_seating.get_seat(x + 1, y + 1) == S.OCCUPIED_SEAT: occupied_count += 1
-    if test_seating.get_seat(x, y - 1) == S.OCCUPIED_SEAT: occupied_count += 1
-    if test_seating.get_seat(x, y + 1) == S.OCCUPIED_SEAT: occupied_count += 1
-    if test_seating.get_seat(x - 1, y + 1) == S.OCCUPIED_SEAT:  occupied_count += 1
-    if test_seating.get_seat(x - 1, y) == S.OCCUPIED_SEAT:  occupied_count += 1
-    if test_seating.get_seat(x - 1, y - 1) == S.OCCUPIED_SEAT:  occupied_count += 1
-    if occupied_count >= 4:
-        return 'L'
-    else:
-        return '#'
+def part1():
+    lines = read_input()
+    modified = True
+    cycles = 0
+    while modified:
+        cycles += 1
+        linesNext = deepCopy(lines)
+        for i in range(len(linesNext)):
+            for j in range(len(linesNext[0])):
+                if (lines[i][j] in ['L','#']):
+                    t = [getValue(lines,i-1,j-1), getValue(lines,i-1,j), getValue(lines,i-1,j+1),
+                        getValue(lines,i  ,j-1),                         getValue(lines,i  ,j+1),
+                        getValue(lines,i+1,j-1), getValue(lines,i+1,j), getValue(lines,i+1,j+1)]
+                    if (t.count('#') == 0):
+                        linesNext[i][j] = '#'
+                    elif (t.count('#') >= 4):
+                        linesNext[i][j] = 'L'
+        #printArray(cycles, lines)
+        modified = not compare(lines, linesNext)
+        lines = deepCopy(linesNext)
+    print('after',cycles,'rounds',countSeats(lines),'seats are in use')
 
+def part2():
+    lines = read_input()
+    modified = True
+    cycles = 0
+    while modified:
+        cycles += 1
+        linesNext = deepCopy(lines)
+        for i in range(len(linesNext)):
+            for j in range(len(linesNext[0])):
+                if (lines[i][j] in ['L','#']):
+                    t = occupiedSeatsVisible(lines,i,j)
+                    if (t.count('#') == 0):
+                        linesNext[i][j] = '#'
+                    elif (t.count('#') >= 5 and lines[i][j] in ['L','#']):
+                        linesNext[i][j] = 'L'
+        #printArray(cycles, lines)
+        modified = not compare(lines, linesNext)
+        lines = deepCopy(linesNext)
+    print('after',cycles,'rounds',countSeats(lines),'seats are in use')
 
-def case_EMPTY_SEAT(test_seating, x, y) -> str:
-    occupied_count = 0
-    if test_seating.get_seat(x + 1, y - 1) == S.OCCUPIED_SEAT: occupied_count += 1
-    if test_seating.get_seat(x + 1, y) == S.OCCUPIED_SEAT: occupied_count += 1
-    if test_seating.get_seat(x + 1, y + 1) == S.OCCUPIED_SEAT: occupied_count += 1
-    if test_seating.get_seat(x, y - 1) == S.OCCUPIED_SEAT: occupied_count += 1
-    if test_seating.get_seat(x, y + 1) == S.OCCUPIED_SEAT: occupied_count += 1
-    if test_seating.get_seat(x - 1, y + 1) == S.OCCUPIED_SEAT:  occupied_count += 1
-    if test_seating.get_seat(x - 1, y) == S.OCCUPIED_SEAT:  occupied_count += 1
-    if test_seating.get_seat(x - 1, y - 1) == S.OCCUPIED_SEAT:  occupied_count += 1
-    if test_seating.get_seat(x + 1, y - 1) == S.OCCUPIED_SEAT:  occupied_count += 1
-    if occupied_count == 0:
-        return '#'
-    else:
-        return 'L'
-
-
-class MyTestCase(TestCase):
-    def test_something(self):
-        test_seating = Seats(seat_layout_test)
-        self.assertEqual(test_seating.get_seat(0, 0), S.EMPTY_SEAT)
-        self.assertEqual(test_seating.get_seat(1, 1), S.EMPTY_SEAT)
-        self.assertEqual(test_seating.get_seat(1, 0), S.EMPTY_SEAT)
-        self.assertEqual(test_seating.get_seat(0, 1), S.FLOOR)
-        self.assertEqual(test_seating.get_seat(10, 0), S.FLOOR)
-
-    def test_count(self):
-        test_seating = Seats(seat_layout_test)
-        expected_seating = Seats([
-            "#.##.##.##",
-            "#######.##",
-            "#.#.#..#..",
-            "####.##.##",
-            "#.##.##.##",
-            "#.#####.##",
-            "..#.#.....",
-            "##########",
-            "#.######.#",
-            "#.#####.##"
-        ])
-        self.assertEqual(expected_seating.count_occupied_seats(), 71)
-
-    def test_nextstep(self):
-        test_seating = Seats(seat_layout_test)
-        expected_seating = Seats([
-            "#.##.##.##",
-            "#######.##",
-            "#.#.#..#..",
-            "####.##.##",
-            "#.##.##.##",
-            "#.#####.##",
-            "..#.#.....",
-            "##########",
-            "#.######.#",
-            "#.#####.##"
-        ])
-        seating_2 = next_seatings(test_seating)
-        self.assertEqual(seating_2.seats_as_string(), expected_seating.seats_as_string())
-
-    def test_step2(self):
-        test_seating = Seats([
-            "#.##.##.##",
-            "#######.##",
-            "#.#.#..#..",
-            "####.##.##",
-            "#.##.##.##",
-            "#.#####.##",
-            "..#.#.....",
-            "##########",
-            "#.######.#",
-            "#.#####.##"
-        ])
-        expected_seatings = Seats([
-            "#.LL.L#.##",
-            "#LLLLLL.L#",
-            "L.L.L..L..",
-            "#LLL.LL.L#",
-            "#.LL.LL.LL",
-            "#.LLLL#.##",
-            "..L.L.....",
-            "#LLLLLLLL#",
-            "#.LLLLLL.L",
-            "#.#LLLL.##"
-        ])
-        seating_2 = next_seatings(test_seating)
-        self.assertEqual(expected_seatings.seats_as_string(), seating_2.seats_as_string())
-
-    def test_step3(self):
-        test_seating = Seats(seat_layout_test)
-        self.assertEqual(final_count(test_seating), 37)
+part1()
+part2()
