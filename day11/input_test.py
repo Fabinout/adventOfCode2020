@@ -9,3 +9,4 @@ seat_layout_test = ["L.LL.LL.LL",
                     "L.LLLLLL.L",
                     "L.LLLLL.LL"
                     ]
+
