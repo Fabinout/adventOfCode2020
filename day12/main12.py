@@ -2,7 +2,7 @@ import unittest
 from enum import Enum, auto
 from typing import Tuple
 
-from day12.inputs import input_test
+from day12.inputs import input_test, input_real_data
 
 
 def extract_argument(param) -> int:
@@ -49,26 +49,26 @@ def avancer(position, arg) -> Tuple:
 
 def rotate_left(position, arg) -> Tuple:
     direction = position[0]
-    if position[0] == C.EAST: direction = C.SOUTH
+    if position[0] == C.EAST: direction = C.NORTH
     if position[0] == C.NORTH: direction = C.WEST
-    if position[0] == C.WEST: direction = C.NORTH
+    if position[0] == C.WEST: direction = C.SOUTH
     if position[0] == C.SOUTH: direction = C.EAST
     if arg == 90:
         return direction, position[1], position[2]
     else:
-        return rotate_left((direction, position[1], direction[2]), arg - 90)
+        return rotate_left((direction, position[1], position[2]), arg - 90)
 
 
 def rotate_right(position, arg) -> Tuple:
     direction = position[0]
     if position[0] == C.EAST: direction = C.SOUTH
     if position[0] == C.NORTH: direction = C.EAST
-    if position[0] == C.WEST: direction = C.SOUTH
+    if position[0] == C.WEST: direction = C.NORTH
     if position[0] == C.SOUTH: direction = C.WEST
     if arg == 90:
         return direction, position[1], position[2]
     else:
-        return rotate_right((direction, position[1], direction[2]), arg - 90)
+        return rotate_right((direction, position[1], position[2]), arg - 90)
 
 
 def final_destination(input_test):
@@ -113,6 +113,15 @@ class MyTestCase(unittest.TestCase):
 
     def test_manhatan_distance(self):
         self.assertEqual(manhatan_distance(input_test), 25)
+
+    def test_rotate(self):
+        self.assertEqual(final_destination([]), (0, 0))
+        self.assertEqual(final_destination(["F1", "L180", "F1", "L270"]), (0, 0))
+        self.assertEqual(final_destination(["F1", "L360", "F1"]), (2, 0))
+        self.assertEqual(final_destination(["F1", "R360", "F1"]), (2, 0))
+
+    def test_manhatan_distance_with_real_input(self):
+        self.assertEqual(manhatan_distance(input_real_data), 2280)
 
 
 if __name__ == '__main__':
