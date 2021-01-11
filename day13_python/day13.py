@@ -11,6 +11,20 @@ def is_a_multiple_(param: int, param1: int) -> bool:
     return param % param1 == 0
 
 
+def find_first_bus(test_inputs):
+    start = test_inputs[0]
+    new_list = filter_list(test_inputs)
+    for minute in range(start, start + 1000):
+        for i in new_list:
+            if is_a_multiple_(minute, int(i)):
+                print(f'{minute=}')
+                print(f'{start=}')
+                print(f'{i=}')
+                return (minute - start) * int(i)
+
+    pass
+
+
 class MyTestCase(unittest.TestCase):
 
     def test_filter_lambda(self):
@@ -24,3 +38,5 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(is_a_multiple_(945, 7), True)
         self.assertEqual(is_a_multiple_(945, 59), False)
 
+    def test_find_first_bus(self):
+        self.assertEqual(find_first_bus(test_inputs), 295)
