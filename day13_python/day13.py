@@ -1,6 +1,6 @@
 import unittest
 
-from day13_python.inputs import test_inputs
+from day13_python.inputs import test_inputs, real_inputs
 
 
 def filter_list(my_input):
@@ -40,3 +40,4 @@ class MyTestCase(unittest.TestCase):
 
     def test_find_first_bus(self):
         self.assertEqual(find_first_bus(test_inputs), 295)
+        self.assertEqual(find_first_bus(real_inputs), 3035)
