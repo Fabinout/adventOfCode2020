@@ -83,7 +83,7 @@ def rotate_right(position, arg) -> Tuple:
     if arg == 90:
         return direction, position[1], position[2], waypoint_x, waypoint_y
     else:
-        return rotate_left((direction, position[1], position[2], waypoint_x, waypoint_y), arg - 90)
+        return rotate_right((direction, position[1], position[2], waypoint_x, waypoint_y), arg - 90)
 
 
 def final_destination(input_test):
@@ -128,7 +128,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(final_destination(input_test), (214, -72))
 
     def test_manhatan_distance(self):
-        self.assertEqual(manhatan_distance(input_test),286)
+        self.assertEqual(manhatan_distance(input_test), 286)
 
     def test_movement(self):
         self.assertEqual(final_destination(["F10"]), (100, 10))
@@ -137,12 +137,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(final_destination(["F10", "N3", "F7", "R90"]), (170, 38))
         self.assertEqual(final_destination(["F10", "N3", "F7", "R90", "F11"]), (214, -72))
 
-        # self.assertEqual(final_destination(["F1", "L180", "F1", "L270"]), (0, 0))
-        # self.assertEqual(final_destination(["F1", "L360", "F1"]), (2, 0))
-        # self.assertEqual(final_destination(["F1", "R360", "F1"]), (2, 0))
 
     def test_manhatan_distance_with_real_input(self):
-        self.assertEqual(manhatan_distance(input_real_data), 65827)
+        self.assertEqual(manhatan_distance(input_real_data), 38693)
 
 
 if __name__ == '__main__':
