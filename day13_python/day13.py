@@ -3,34 +3,32 @@ import unittest
 from day13_python.inputs import test_inputs, real_inputs
 
 
-def filter_list(my_input):
-    return list(filter(lambda bus_id: bus_id != "x", my_input[1]))
-
-
 def is_a_multiple_(param: int, param1: int) -> bool:
     return param % param1 == 0
 
 
-def find_first_bus(test_inputs):
-    start = test_inputs[0]
-    new_list = filter_list(test_inputs)
-    for minute in range(start, start + 1000):
-        for i in new_list:
-            if is_a_multiple_(minute, int(i)):
-                print(f'{minute=}')
-                print(f'{start=}')
-                print(f'{i=}')
-                return (minute - start) * int(i)
-
+def find_first_minute(test_inputs):
+    minute = 0
+    step = 1
+    while True:
+        subsequent_departure = True
+        for (index, i) in enumerate(test_inputs[1]):
+            if i != "x":
+                i_int = int(i)
+                if not (is_a_multiple_(minute + index, i_int)):
+                    subsequent_departure = False
+                    break
+                else:
+                    if not is_a_multiple_(step, i_int):
+                        step *= i_int
+        if subsequent_departure:
+            return minute
+        else:
+            minute = minute + step
     pass
 
 
 class MyTestCase(unittest.TestCase):
-
-    def test_filter_lambda(self):
-        my_input = test_inputs
-        newlist = filter_list(my_input)
-        self.assertEqual(newlist, ["7", "13", "59", "31", "19"])
 
     def test_is_a_multiple(self):
         self.assertEqual(is_a_multiple_(944, 59), True)
@@ -39,5 +37,5 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(is_a_multiple_(945, 59), False)
 
     def test_find_first_bus(self):
-        self.assertEqual(find_first_bus(test_inputs), 295)
-        self.assertEqual(find_first_bus(real_inputs), 3035)
+        self.assertEqual(find_first_minute(test_inputs), 1068781)
+        self.assertEqual(find_first_minute(real_inputs), 725169163285238)
