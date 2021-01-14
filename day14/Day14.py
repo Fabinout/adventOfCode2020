@@ -49,7 +49,7 @@ def seaport_computation_system(test_input: List[str]) -> int:
     return sum(mem.values())
 
 
-def extract_index(s: str)-> int:
+def extract_index(s: str) -> int:
     return int(s.split("[")[1].split(']')[0])
 
 
@@ -65,10 +65,8 @@ class MyTestCase(unittest.TestCase):
 
     def test_to_int(self):
         self.assertEqual(11, to_int(
-            [0, 0, 0, 0, 0, 0, 0, 0, 0  , 0    , 0,
-
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1,
-
              1]))
 
     def test_something(self):
