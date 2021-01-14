@@ -65,7 +65,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_to_int(self):
         self.assertEqual(11, to_int(
-            [0, 0, 0, 0, 0, 0, 0, 0, 0  , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1,
+            [0, 0, 0, 0, 0, 0, 0, 0, 0  , 0    , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1,
              1]))
 
     def test_something(self):
