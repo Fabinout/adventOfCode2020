@@ -44,7 +44,7 @@ class Mask(object):
         return "".join(n)
 
 
-def bitfield(n) -> List:
+def bitfield(n: int) -> List:
     return list(format(n, '036b'))
 
 
@@ -91,17 +91,17 @@ def compute_floatings(m: Mask, address: int) -> List[int]:
     return possible_values
 
 
-def seaport_computation_system2(input: str):
+def seaport_computation_system2(input_str: str):
     mask = Mask('')
     s: str
     mem = {}
-    for s in test_input:
+    for s in input_str:
         if s.startswith('mask'):
             mask = Mask(s.split()[2])
         else:
             index = extract_index(s)
             value = int(s.split()[2])
-            floatings_values = compute_floatings(mask, value)
+            floatings_values = compute_floatings(mask, index)
             for memory_adress in floatings_values:
                 mem[memory_adress] = value
 
@@ -142,6 +142,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_seaport_computation_system2(self):
         self.assertEqual(seaport_computation_system2(test_input3), 208)
+        self.assertEqual(seaport_computation_system2(test_prod), 4200656704538)
 
 
 if __name__ == '__main__':
