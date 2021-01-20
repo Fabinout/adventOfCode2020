@@ -38,12 +38,12 @@ class bag:
             print(self.child[i])
 
 
-def findContainer(collection, color):
+def find_container(collection, color):
     for b in collection:
         for bc in b.child:
             if (bc == color and not b.containGold):
                 b.containGold = True
-                findContainer(collection, b.color)
+                find_container(collection, b.color)
 
 
 file = open("original_input.txt")
@@ -55,7 +55,7 @@ while (str):
     str[-1] = re.sub(" bags.\n| bag.\n", '', str[-1])
     bags.append(bag(str))
     str = file.readline()
-findContainer(bags, "shiny gold")
+find_container(bags, "shiny gold")
 out = 0
 out2 = 0
 for b in bags:
