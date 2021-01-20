@@ -39,11 +39,11 @@ class bag:
 
 
 def find_container(collection, color):
-    for b in collection:
-        for bc in b.child:
-            if (bc == color and not b.containGold):
-                b.containGold = True
-                find_container(collection, b.color)
+    for b_item in collection:
+        for bc in b_item.child:
+            if (bc == color and not b_item.containGold):
+                b_item.containGold = True
+                find_container(collection, b_item.color)
 
 
 file = open("original_input.txt")
