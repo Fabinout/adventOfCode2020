@@ -4,23 +4,23 @@ import re
 class bag:
     qty = []
     child = []
-    containGold = False;
+    containGold = False
 
     def __init__(self, str):
-        self.qty = [];
-        self.child = [];
-        self.color = str[0];
+        self.qty = []
+        self.child = []
+        self.color = str[0]
         for b in str[1:len(str)]:
             if (re.search("no other", b) != None):
-                break;
+                break
             self.qty.append(int(b[0]))
             self.child.append(b[2:len(b)])
 
     def contains(self, collection, toplevel):
 
-        out = 1;
+        out = 1
         if (toplevel):
-            out = 0;
+            out = 0
         if len(self.qty) == 0:
             return 1
         for i in range(len(self.qty)):
@@ -31,7 +31,7 @@ class bag:
         return out
 
     def define(self):
-        print(self.color);
+        print(self.color)
         print("->")
         print(len(b.child))
         for i in range(len(self.qty)):
@@ -42,7 +42,7 @@ def findContainer(collection, color):
     for b in collection:
         for bc in b.child:
             if (bc == color and not b.containGold):
-                b.containGold = True;
+                b.containGold = True
                 findContainer(collection, b.color)
 
 
@@ -57,7 +57,7 @@ while (str):
     str = file.readline()
 findContainer(bags, "shiny gold")
 out = 0
-out2 = 0;
+out2 = 0
 for b in bags:
     if (b.color == "shiny gold"):
         out2 = b.contains(bags, True)
