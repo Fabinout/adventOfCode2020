@@ -22,7 +22,7 @@ class bag:
         out = 1;
         if (toplevel):
             out = 0;
-        if (len(self.qty) == 0):
+        if len(self.qty) == 0:
             return 1
         for i in range(len(self.qty)):
             for b in collection:
